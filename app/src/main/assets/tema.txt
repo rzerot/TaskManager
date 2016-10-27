@@ -1,0 +1,25 @@
+TEMA: de facut doua ecrane: login si profile.
+
+In arhiva gasiti:
+- imaginile de care aveti nevoie. Trebuie sa le puneti in drawable-xxhdpi.
+- o imagine "json.png" ce ilustreaza un model de json din care puteti extrage entitatile de care aveti nevoie.
+- Pentru a lua culorile folositi paint / color crop /....
+
+Ecranul de profile va fi deschis din login:
+- cand se face logarea cu utilizatorul: android@gmail.com si parola:123456 (pentru admin, informatii ce se gasesc hardcodate si care trebuie salvate in SharePref) si cu email/parola pentru useri care exista in BD. 
+- In caz ca se introduce alt user sa se afiseze un toast cu o eroare. (user-ul si parola se persista in app)
+- Trebuie sa existe o BD: 
+	- fisier text -> JSON -> Objects
+	- SQL: tabele -> Objects
+- Ecranul cu informatiile despre un profil contine o lista expandabila ce contine task-urile care le are utilizatorul. Acestea pot fi marcate ca fiind complete printr-un checkbox
+	- un task poate avea o lista de subtasturi sau nu
+	- daca un task are o lista de subtask-uri ce sunt toate complete, atunci task-ul este marcat ca fiind complet
+	- daca unui task i se da uncheck la un subtask, atunci task-ul trebuie marcat ca fiind incomplet
+ 	- trebuiesc facute niste functii ce parcurg aceste liste decid daca un task este complet sau nu
+
+Bonus:
+1. Folositi 9 patch resizer pentru a obtine resursele pentru mdpi, hdpi, xhdpi si adaugatile in proiect:
+https://github.com/redwarp/9-Patch-Resizer/releases
+2. Cand se face login fara user/parola, sa se seteze un mesaj de eroare pe EditText-ul de la user/parola folosind metoda setError.
+3. Adaugati validare pe parola: minim 6 caractere
+4. Adaugati validare pe email (folositi un regex pentru email-uri).
