@@ -1,10 +1,12 @@
 package dragos.com.taskmanager.POJO;
 
+import java.io.Serializable;
+
 /**
  * Created by java2 on 10/27/2016.
  */
 
-public class SubTask {
+public class SubTask implements Serializable{
     private String name;
     private boolean completed;
 

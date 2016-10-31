@@ -1,12 +1,13 @@
 package dragos.com.taskmanager.POJO;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by java2 on 10/27/2016.
  */
 
-public class UserInfo {
+public class UserInfo implements Serializable{
 
     private ArrayList<Task> tasks = new ArrayList<>();
     private String firstName;
@@ -29,6 +30,14 @@ public class UserInfo {
         this.imageProfile = imageProfile;
         this.taskCompleted = taskCompleted;
         this.taskRemaining = taskRemaining;
+    }
+
+    public UserInfo(String firstName, String lastName, int age, String jobTitle, String imageProfile) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+        this.jobTitle = jobTitle;
+        this.imageProfile = imageProfile;
     }
 
     public ArrayList<Task> getTasks() {

@@ -37,6 +37,22 @@
                 android:hint="Last Name"
                 android:textSize="15dp" />
         </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lastname"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:hint="Email address"
+                android:textSize="15dp"
+                android:inputType="textEmailAddress"
+                />
+        </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
@@ -46,26 +62,34 @@
                 android:id="@+id/age"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/lastname"
+                android:layout_below="@+id/email"
                 android:layout_marginTop="40dp"
                 android:background="@color/white"
                 android:hint="Age"
-                android:textSize="15dp" />
+                android:textSize="15dp"
+                android:inputType="number"
+                />
         </android.support.design.widget.TextInputLayout>
 
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
         <EditText
             android:id="@+id/jobtitle"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/lastname"
+            android:layout_below="@+id/age"
             android:layout_marginTop="10dp"
             android:background="@color/white"
             android:hint="Job Title"
             android:textSize="15dp" />
-
+    </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
         <EditText
             android:id="@+id/profileimage"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/jobtitle"
             android:layout_marginTop="10dp"
@@ -73,20 +97,27 @@
             android:hint="Profile Image"
             android:onClick="doLaunchContactPicker"
             android:textSize="15dp" />
+</android.support.design.widget.TextInputLayout>
 
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
         <EditText
             android:id="@+id/field_username"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/profileimage"
             android:layout_marginTop="10dp"
             android:background="@color/white"
             android:hint="Username"
             android:textSize="15dp" />
-
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
         <EditText
             android:id="@+id/password"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/field_username"
             android:layout_marginTop="10dp"
@@ -94,7 +125,28 @@
             android:hint="Password"
             android:inputType="textPassword"
             android:textSize="15dp" />
+    </android.support.design.widget.TextInputLayout>
 
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/retype_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/password"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:hint="Retype Password"
+                android:inputType="textPassword"
+                android:textSize="15dp" />
+        </android.support.design.widget.TextInputLayout>
+
+       <Button
+           android:id="@+id/submit"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="Submit"/>
     </LinearLayout>
 
 

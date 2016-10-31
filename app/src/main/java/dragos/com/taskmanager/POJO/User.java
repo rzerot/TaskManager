@@ -1,10 +1,12 @@
 package dragos.com.taskmanager.POJO;
 
+import java.io.Serializable;
+
 /**
  * Created by java2 on 10/27/2016.
  */
 
-public class User {
+public class User implements Serializable{
     private String email;
     private String password;
     private UserInfo userInfo;
@@ -23,7 +25,6 @@ public class User {
     public String getEmail() {
         return email;
     }
-
 
 
     public void setEmail(String email) {
@@ -45,7 +46,6 @@ public class User {
     public void setUserInfo(UserInfo userInfo) {
         this.userInfo = userInfo;
     }
-
 
 
 }

@@ -10,18 +10,24 @@ import dragos.com.taskmanager.POJO.UserInfo;
 public class CreateNewAccount {
 
 
-    static User createUser(String username, String password,UserInfo userInfo ) {
+   /* static User createUser(String username, String password,UserInfo userInfo ) {
 
-        User user = new User("rzerot","pass",createUserInfo());
+        User user = new User(username,password,createUserInfo());
 
 
         return user;
     }
 
-    static UserInfo createUserInfo(){
-        UserInfo userInfo = new UserInfo();
-        return userInfo;
-    }
+//    static UserInfo createUserInfo(String firstName, String lastName,int age, String jobTitle, String imageProfile){
+//
+//        UserInfo userInfo = new UserInfo();
+//        userInfo.setFirstName(firstName);
+//        userInfo.setLastName(lastName);
+//        userInfo.setAge(age);
+//        userInfo.setJobTitle(jobTitle);
+//        userInfo.setImageProfile(imageProfile);
+//        return userInfo;*/
+//    }
 
 
 }
