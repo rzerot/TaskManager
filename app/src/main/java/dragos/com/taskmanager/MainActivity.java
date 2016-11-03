@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import dragos.com.taskmanager.jsoncreate.JsonGenerate;
+import dragos.com.taskmanager.services.JsonService;
 
 public class MainActivity extends AppCompatActivity {
     TextView createAccount;
@@ -26,6 +27,7 @@ LayoutInflater layoutInflater;
         createAccount = (TextView) findViewById(R.id.create_account);
 
 
+        new JsonService(this);
     }
 
     void setlistener() {

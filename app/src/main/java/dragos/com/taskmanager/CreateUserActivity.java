@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -14,9 +15,11 @@ import org.json.JSONObject;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashMap;
 
 import dragos.com.taskmanager.POJO.User;
 import dragos.com.taskmanager.POJO.UserInfo;
+import dragos.com.taskmanager.services.JsonService;
 
 public class CreateUserActivity extends AppCompatActivity {
     Button submit;
@@ -28,6 +31,9 @@ public class CreateUserActivity extends AppCompatActivity {
     EditText email;
     EditText password;
     EditText retypePassword;
+    HashMap<String, User> allUsers;
+    private static final String PATH = "data/data/dragos.com.taskmanager/json.txt";
+    JsonService jsonService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +42,7 @@ public class CreateUserActivity extends AppCompatActivity {
         setContentView(R.layout.create_user);
 
         init();
+        jsonService.readFile();
         setListener();
 
 
@@ -43,6 +50,8 @@ public class CreateUserActivity extends AppCompatActivity {
 
 
     private void init() {
+        jsonService = new JsonService(this);
+
         submit = (Button) findViewById(R.id.submit);
         firstName = (EditText) findViewById(R.id.firstname);
         lastName = (EditText) findViewById(R.id.lastname);
@@ -52,45 +61,40 @@ public class CreateUserActivity extends AppCompatActivity {
         email = (EditText) findViewById(R.id.email);
         password = (EditText) findViewById(R.id.password);
         retypePassword = (EditText) findViewById(R.id.retype_password);
-
+//        allUsers = new JsonService().readJson(PATH);
     }
 
     private void setListener() {
         submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                UserInfo userInfo = new UserInfo(firstName.getText().toString(), lastName.getText().toString(), Integer.parseInt(age.getText().toString()), jobTitle.getText().toString(), profileImage.getText().toString());
-                User newUser = new User(email.getText().toString(), password.getText().toString(), userInfo);
+                                      @Override
+                                      public void onClick(View view) {
+                                          UserInfo userInfo = new UserInfo(firstName.getText().toString(), lastName.getText().toString(), Integer.parseInt(age.getText().toString()), jobTitle.getText().toString(), profileImage.getText().toString());
+                                          User newUser = new User(email.getText().toString(), password.getText().toString(), userInfo);
 
-                if (userInfo.getFirstName() == null || userInfo.getLastName() == null || newUser.getEmail() != null || newUser.getPassword() != null) {
+                                          if (userInfo.getFirstName() == null || userInfo.getLastName() == null || newUser.getEmail() != null || newUser.getPassword() != null) {
+                                              if (allUsers == null) {
 
-
-                    Gson gson = new Gson();
-
-                    String json = gson.toJson(newUser);
-                    System.out.println(json);
-               //     String asset = getAssets();
-           //         System.out.println(asset);
-                    try {
-
-                        FileWriter writer = new FileWriter(getAssets()+"/try.txt");
-                        writer.write(json);
-                        writer.close();
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                                              } else if (allUsers.containsKey(newUser.getEmail())) {
+//                            Toast.makeText("wrong",3);
+                                              } else {
+                                                  allUsers.put(newUser.getEmail(), newUser);
+                                                  jsonService.writeFile(jsonService.writeJson(allUsers));
+                                              }
 
 
-                } else {
+                                          } else
+
+                                          {
 
 
-                }
+                                          }
 
 
-                finish();
-            }
-        });
+                                          finish();
+                                      }
+                                  }
+
+        );
 
 
     }
