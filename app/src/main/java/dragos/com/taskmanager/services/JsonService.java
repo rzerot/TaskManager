@@ -59,6 +59,10 @@ public class JsonService {
             try {
                 stream.write("text-to-write".getBytes());
             } finally {
+
+
+
+                
                 stream.close();
             }
         } catch (IOException e) {
