@@ -19,6 +19,7 @@ import java.util.HashMap;
 
 import dragos.com.taskmanager.POJO.User;
 import dragos.com.taskmanager.POJO.UserInfo;
+import dragos.com.taskmanager.Util.Checkers;
 import dragos.com.taskmanager.services.JsonService;
 
 public class CreateUserActivity extends AppCompatActivity {
@@ -31,18 +32,21 @@ public class CreateUserActivity extends AppCompatActivity {
     EditText email;
     EditText password;
     EditText retypePassword;
-    HashMap<String, User> allUsers;
-    private static final String PATH = "data/data/dragos.com.taskmanager/json.txt";
-    JsonService jsonService;
+    HashMap<String, User> allUsers = new HashMap<>();
+
+    JsonService jsonService = new JsonService(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.create_user);
+//        jsonService.readFile();
+
 
         init();
-        jsonService.readFile();
+        setUI();
+
         setListener();
 
 
@@ -50,7 +54,14 @@ public class CreateUserActivity extends AppCompatActivity {
 
 
     private void init() {
-        jsonService = new JsonService(this);
+try{
+        allUsers = jsonService.readJson(jsonService.readFile());}
+catch (NullPointerException e){
+   allUsers = new HashMap<>();
+}
+    }
+    void setUI(){
+
 
         submit = (Button) findViewById(R.id.submit);
         firstName = (EditText) findViewById(R.id.firstname);
@@ -61,24 +72,36 @@ public class CreateUserActivity extends AppCompatActivity {
         email = (EditText) findViewById(R.id.email);
         password = (EditText) findViewById(R.id.password);
         retypePassword = (EditText) findViewById(R.id.retype_password);
-//        allUsers = new JsonService().readJson(PATH);
+
+
     }
 
     private void setListener() {
         submit.setOnClickListener(new View.OnClickListener() {
                                       @Override
                                       public void onClick(View view) {
+                                          Checkers checkers = new Checkers();
+                                                checkers.textChange(firstName);
+                                          if((checkers.stringChecker(firstName)&& checkers.stringChecker(lastName))==true){
+
+                                          }else {
+
                                           UserInfo userInfo = new UserInfo(firstName.getText().toString(), lastName.getText().toString(), Integer.parseInt(age.getText().toString()), jobTitle.getText().toString(), profileImage.getText().toString());
                                           User newUser = new User(email.getText().toString(), password.getText().toString(), userInfo);
 
-                                          if (userInfo.getFirstName() == null || userInfo.getLastName() == null || newUser.getEmail() != null || newUser.getPassword() != null) {
-                                              if (allUsers == null) {
 
-                                              } else if (allUsers.containsKey(newUser.getEmail())) {
+
+                                          if (userInfo.getFirstName() != null || userInfo.getLastName() != null || newUser.getEmail() != null || newUser.getPassword() != null) {
+                                              if (allUsers == null) {
+                                                  allUsers.put(newUser.getEmail(), newUser);
+                                                  jsonService.writeFile(jsonService.writeJson(allUsers));
+                                                  jsonService.readFile();
+                                              } else if (allUsers.containsKey(newUser.getEmail().trim())) {
 //                            Toast.makeText("wrong",3);
                                               } else {
                                                   allUsers.put(newUser.getEmail(), newUser);
                                                   jsonService.writeFile(jsonService.writeJson(allUsers));
+
                                               }
 
 
@@ -91,6 +114,7 @@ public class CreateUserActivity extends AppCompatActivity {
 
 
                                           finish();
+                                          }
                                       }
                                   }
 

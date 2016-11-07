@@ -13,6 +13,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -26,120 +27,82 @@ import dragos.com.taskmanager.POJO.User;
  */
 
 public class JsonService {
-    private static Context context;
+    private Context context;
 
     public JsonService(Context context) {
         this.context = context;
 
-        writeInternal();
-//        write();
-//        read();
+
     }
 
-    private static final String PATH = "data/data/dragos.com.taskmanager/json.txt";
+    private static final String FILENAME = "jsonFile";
 
 
     public void writeFile(String string) {
+
+//        String [] files =        context.fileList();
+//
+//        for(String file :files) {
+//            context.deleteFile(file);
+//        }
+
         try {
-            FileWriter file = new FileWriter(PATH);
-            file.write(string);
-
-            file.close();
-        } catch (IOException e) {
-            e.getStackTrace();
-        }
-
-    }
-
-    private void write() {
-        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/test.txt");
-        try {
-            file.createNewFile();
-            FileOutputStream stream = new FileOutputStream(file);
-            try {
-                stream.write("text-to-write".getBytes());
-            } finally {
 
 
+            FileOutputStream fos = context.openFileOutput(FILENAME, Context.MODE_PRIVATE);
 
-                
-                stream.close();
-            }
+//            /data/user/0/dragos.com.taskmanager/files
+//            FileOutputStream fos = new FileOutputStream("/data/user/0/dragos.com.taskmanager/files/"+FILENAME,false);
+            System.out.println(context.getFilesDir());
+            fos.write(string.getBytes());
+            fos.flush();
+            fos.close();
+//            String[] zalist = context.fileList();
+//            for (String list : zalist) {
+//                System.out.println(list);
+//            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("exists=" + file.exists());
-    }
 
-    private static void writeInternal() {
-        String fileName = "MyFile";
-        String content = "hello world";
-        String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/testt";
-        File newFile = new File(path);
-        FileOutputStream outputStream = null;
-        try {
-            outputStream = context.openFileOutput(newFile.getAbsolutePath(), Context.MODE_PRIVATE);
-            outputStream.write(content.getBytes());
-            outputStream.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void read() {
-        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/test.txt");
-        int length = (int) file.length();
-
-        byte[] bytes = new byte[length];
-
-        FileInputStream in = null;
-        try {
-            in = new FileInputStream(file);
-            try {
-                in.read(bytes);
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                try {
-                    in.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
-
-        String contents = new String(bytes);
-        System.out.println("read= " + contents);
     }
 
     public String readFile() {
+//        System.out.println(context.getFilesDir());
         StringBuilder stringBuilder = new StringBuilder();
+        int i;
+
         try {
-            Reader fileReader = new FileReader(PATH);
-
-            int data = fileReader.read();
-            while (data != -1) {
-                stringBuilder.append((char) data);
-
-                data = fileReader.read();
+            FileInputStream fis = context.openFileInput(FILENAME);
+            while ((i = fis.read()) != -1) {
+                stringBuilder.append((char) i);
             }
-            fileReader.close();
-        } catch (IOException e) {
+            fis.close();
+        } catch (Exception e) {
+
+            writeFile("");
             e.printStackTrace();
         }
-        System.out.println("FUN " + stringBuilder.toString());
+
+        System.out.println("YESSS?" + stringBuilder);
+
         return stringBuilder.toString();
     }
+//void deleteFile(){
+//    File filesDir = context.getFilesDir();
+//   	successfully = context.deleteFile(file.getName());
+//
+//}
 
+    //JSON
     public HashMap<String, User> readJson(String path) {
         Gson gson = new Gson();
         HashMap<String, User> allUsers = new HashMap<>();
+        ArrayList<User> jsonContent;
         Type type = new TypeToken<ArrayList<User>>() {
         }.getType();
-        ArrayList<User> jsonContent = gson.fromJson(path, type);
+        jsonContent = gson.fromJson(path, type);
         for (int i = 0; i < jsonContent.size(); i++) {
             allUsers.put(jsonContent.get(i).getEmail(), jsonContent.get(i));
         }
@@ -151,7 +114,7 @@ public class JsonService {
     public String writeJson(HashMap<String, User> allUsers) {
         ArrayList<User> users = new ArrayList<>();
         for (User user : allUsers.values()) {
-            users.addAll(allUsers.values());
+            users.add(user);
         }
 
         Gson gson = new Gson();
