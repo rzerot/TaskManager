@@ -1,8 +1,10 @@
 package dragos.com.taskmanager;
 
 import android.content.Intent;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -33,8 +35,9 @@ public class CreateUserActivity extends AppCompatActivity {
     EditText password;
     EditText retypePassword;
     HashMap<String, User> allUsers = new HashMap<>();
-
+    boolean isValidAllFields = true;
     JsonService jsonService = new JsonService(this);
+//    TextInputLayout
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,13 +57,14 @@ public class CreateUserActivity extends AppCompatActivity {
 
 
     private void init() {
-try{
-        allUsers = jsonService.readJson(jsonService.readFile());}
-catch (NullPointerException e){
-   allUsers = new HashMap<>();
-}
+        try {
+            allUsers = jsonService.readJson(jsonService.readFile());
+        } catch (NullPointerException e) {
+            allUsers = new HashMap<>();
+        }
     }
-    void setUI(){
+
+    void setUI() {
 
 
         submit = (Button) findViewById(R.id.submit);
@@ -76,22 +80,70 @@ catch (NullPointerException e){
 
     }
 
+    public boolean validation(EditText editText) {
+        boolean isValid = true;
+        Checkers checkers = new Checkers();
+        switch (checkers.isValidField(editText.getText().toString())) {
+            case (Checkers.IS_EMPTY):
+
+                editText.setError("isEmpty");
+                isValid = false;
+                break;
+            case (Checkers.INVALID_CHARECTER):
+                editText.setError("Invalid Char");
+                isValid = false;
+                break;
+            default:
+                break;
+        }
+        if (isValid == false) {
+
+            isValidAllFields = false;
+        }
+        return isValid;
+    }
+
     private void setListener() {
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isValidAllFields = true;
+                validation(firstName);
+                validation(lastName);
+
+                Log.d("VALID", "" + isValidAllFields);
+            }
+        });
+        /*
         submit.setOnClickListener(new View.OnClickListener() {
                                       @Override
                                       public void onClick(View view) {
                                           Checkers checkers = new Checkers();
-                                                checkers.textChange(firstName);
-                                          if((checkers.stringChecker(firstName)&& checkers.stringChecker(lastName))==true){
 
-                                          }else {
+                                          checkers.isValidField(firstName.getText().toString())
 
-                                          UserInfo userInfo = new UserInfo(firstName.getText().toString(), lastName.getText().toString(), Integer.parseInt(age.getText().toString()), jobTitle.getText().toString(), profileImage.getText().toString());
-                                          User newUser = new User(email.getText().toString(), password.getText().toString(), userInfo);
+                                          boolean thebigTrue = true;
+                                          if (thebigTrue = false) {
+                                              if (!checkers.stringChecker(lastName)) {
+                                                  thebigTrue = false;
+                                              }
 
 
+                                              if (!checkers.stringChecker(firstName)) {
 
-                                          if (userInfo.getFirstName() != null || userInfo.getLastName() != null || newUser.getEmail() != null || newUser.getPassword() != null) {
+                                                  thebigTrue = false;
+                                              }
+
+
+                                              if (!checkers.stringChecker(jobTitle)) {
+                                                  thebigTrue = false;
+
+
+                                              }
+                                          } else {
+
+                                              UserInfo userInfo = new UserInfo(firstName.getText().toString(), lastName.getText().toString(), Integer.parseInt(age.getText().toString()), jobTitle.getText().toString(), profileImage.getText().toString());
+                                              User newUser = new User(email.getText().toString(), password.getText().toString(), userInfo);
                                               if (allUsers == null) {
                                                   allUsers.put(newUser.getEmail(), newUser);
                                                   jsonService.writeFile(jsonService.writeJson(allUsers));
@@ -105,23 +157,26 @@ catch (NullPointerException e){
                                               }
 
 
-                                          } else
-
-                                          {
-
-
-                                          }
-
-
-                                          finish();
+                                              finish();
                                           }
                                       }
                                   }
 
         );
 
-
+*/
     }
+
+
+//    void setListeners (){
+//        firstName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//            @Override
+//            public void onFocusChange(View view, boolean b) {
+//
+//            }
+//        });
+//
+//    }
 
 
 }
